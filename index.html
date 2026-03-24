@@ -1,147 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Global Solutions · Signature Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>GS Bayoumi Signature Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:       #080b14;
-  --s1:       #0e1120;
-  --s2:       #131729;
-  --s3:       #1a1f35;
-  --border:   #232840;
-  --border2:  #2e3555;
-  --accent:   #5b6ef5;
-  --accent2:  #8b5cf6;
-  --glow:     rgba(91,110,245,.25);
-  --text:     #e8eaf6;
-  --muted:    #636b96;
-  --muted2:   #9099c4;
-  --success:  #22c55e;
-  --r:        14px;
-  --r-sm:     8px;
+/* ── THEMES ── */
+[data-theme="dark"] {
+  --bg:      #080b14;
+  --s1:      #0e1120;
+  --s2:      #131729;
+  --s3:      #1a1f35;
+  --border:  #232840;
+  --border2: #2e3555;
+  --text:    #e8eaf6;
+  --muted:   #636b96;
+  --muted2:  #9099c4;
+  --card:    #0e1120;
+  --input:   #080b14;
+  --preview: #1a1f35;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;}
+[data-theme="light"] {
+  --bg:      #f0f2fa;
+  --s1:      #ffffff;
+  --s2:      #f5f6ff;
+  --s3:      #eaecf8;
+  --border:  #dde0f0;
+  --border2: #c5c9e8;
+  --text:    #1a1f3c;
+  --muted:   #7b82b0;
+  --muted2:  #555a8a;
+  --card:    #ffffff;
+  --input:   #f8f9ff;
+  --preview: #f0f2fa;
+}
+:root {
+  --accent:  #5b6ef5;
+  --accent2: #8b5cf6;
+  --glow:    rgba(91,110,245,.22);
+  --success: #22c55e;
+  --r:       14px;
+  --rsm:     8px;
+}
 
-/* ── LAYOUT ── */
-.app{display:flex;height:100vh;overflow:hidden;}
-aside{width:360px;min-width:300px;display:flex;flex-direction:column;background:var(--s1);border-right:1px solid var(--border);height:100vh;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;transition:background .3s,color .3s;}
+
+/* ── APP LAYOUT ── */
+.app{display:flex;height:100vh;}
+aside{width:360px;min-width:280px;display:flex;flex-direction:column;background:var(--s1);border-right:1px solid var(--border);height:100vh;transition:background .3s,border-color .3s;}
 main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0;}
 
 /* ── SIDEBAR HEADER ── */
-.sh{padding:18px 18px 14px;border-bottom:1px solid var(--border);flex-shrink:0;
-  background:linear-gradient(160deg,#0e1428 0%,#111830 100%);}
-.sh-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.sh-logo{width:34px;height:34px;border-radius:10px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-  box-shadow:0 0 16px var(--glow);}
-.sh-brand h1{font-size:14px;font-weight:700;letter-spacing:.2px;}
-.sh-brand p{font-size:10px;color:var(--muted);margin-top:1px;}
-.tabs{display:flex;gap:4px;background:var(--s2);border-radius:var(--r-sm);padding:3px;}
-.tab{flex:1;padding:6px;border-radius:6px;border:none;background:transparent;
-  color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;
-  transition:all .2s;}
-.tab.active{background:var(--s3);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.sh{padding:16px 16px 12px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--s1);}
+.sh-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sh-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 18px var(--glow);flex-shrink:0;}
+.sh-info{flex:1;min-width:0;}
+.sh-info h1{font-size:13px;font-weight:700;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sh-info p{font-size:10px;color:var(--muted);margin-top:1px;}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;flex-shrink:0;}
+.theme-toggle:hover{border-color:var(--accent);box-shadow:0 0 10px var(--glow);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:3px;background:var(--s2);border-radius:var(--rsm);padding:3px;border:1px solid var(--border);}
+.tab{flex:1;padding:7px 4px;border-radius:6px;border:none;background:transparent;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;}
+.tab.active{background:var(--accent);color:#fff;box-shadow:0 2px 10px var(--glow);}
 
 /* ── SIDEBAR BODY ── */
-.sb{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.sb::-webkit-scrollbar{width:4px;}
+.sb{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.sb::-webkit-scrollbar{width:3px;}
 .sb::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
-
 .panel{display:none;}
 .panel.active{display:flex;flex-direction:column;gap:8px;}
 
 /* ── ACCORDION ── */
-.acc{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s;}
-.acc:focus-within{border-color:var(--border2);}
-.acc-head{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;user-select:none;transition:background .15s;}
-.acc-head:hover{background:rgba(255,255,255,.03);}
-.acc-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
-.acc-icon.purple{background:rgba(139,92,246,.15);}
-.acc-icon.blue  {background:rgba(91,110,245,.15);}
-.acc-icon.teal  {background:rgba(20,184,166,.15);}
-.acc-icon.amber {background:rgba(251,191,36,.15);}
-.acc-title{font-size:12px;font-weight:600;flex:1;}
+.acc{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s,background .3s;}
+.acc:focus-within{border-color:var(--accent);}
+.acc-head{display:flex;align-items:center;gap:9px;padding:10px 13px;cursor:pointer;user-select:none;transition:background .15s;}
+.acc-head:hover{background:rgba(91,110,245,.06);}
+.acc-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.ic-purple{background:rgba(139,92,246,.15);}
+.ic-blue{background:rgba(91,110,245,.15);}
+.ic-teal{background:rgba(20,184,166,.15);}
+.ic-amber{background:rgba(251,191,36,.15);}
+.acc-title{font-size:11px;font-weight:600;flex:1;}
 .acc-arrow{color:var(--muted);font-size:9px;transition:transform .25s;}
 .acc.open .acc-arrow{transform:rotate(180deg);}
-.acc-body{padding:0 14px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;}
-.acc.open .acc-body{max-height:600px;padding:0 14px 14px;}
+.acc-body{padding:0 13px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;}
+.acc.open .acc-body{max-height:700px;padding:0 13px 13px;}
 
 /* ── FIELDS ── */
-.field{display:flex;flex-direction:column;gap:5px;margin-top:10px;}
+.field{display:flex;flex-direction:column;gap:4px;margin-top:9px;}
 .field:first-child{margin-top:0;}
-.field label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
-.field input{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);
-  padding:9px 11px;color:var(--text);font-size:12px;font-family:inherit;outline:none;
-  transition:border-color .15s,box-shadow .15s;width:100%;}
+.field label{font-size:9.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.field input{background:var(--input);border:1px solid var(--border);border-radius:var(--rsm);padding:8px 10px;color:var(--text);font-size:11.5px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
 .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
 .field input::placeholder{color:var(--muted);}
-.img-row{display:flex;gap:8px;align-items:center;}
+.img-row{display:flex;gap:7px;align-items:center;}
 .img-row input{flex:1;}
-.thumb{width:38px;height:38px;border-radius:8px;border:1px solid var(--border);
-  object-fit:contain;background:var(--s1);flex-shrink:0;}
+.thumb{width:36px;height:36px;border-radius:7px;border:1px solid var(--border);object-fit:contain;background:var(--s1);flex-shrink:0;}
 
-/* ── MAIN TOPBAR ── */
-.topbar{display:flex;align-items:center;gap:8px;padding:14px 18px;
-  border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0;}
-.topbar-title{font-size:13px;font-weight:600;flex:1;}
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0;transition:background .3s,border-color .3s;}
+.topbar-title{font-size:13px;font-weight:700;flex:1;}
 .topbar-sub{font-size:10px;color:var(--muted);margin-top:1px;}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-sm);
-  font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--rsm);font-size:11.5px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s;white-space:nowrap;}
 .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 2px 12px var(--glow);}
-.btn-primary:hover{opacity:.88;box-shadow:0 4px 20px var(--glow);}
-.btn-ghost{background:var(--s3);color:var(--muted2);border:1px solid var(--border);}
-.btn-ghost:hover{color:var(--text);border-color:var(--border2);}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 6px 20px var(--glow);}
+.btn-ghost{background:var(--s2);color:var(--muted2);border:1px solid var(--border);}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent);}
 
 /* ── CONTENT ── */
-.content{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.content::-webkit-scrollbar{width:4px;}
+.content{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.content::-webkit-scrollbar{width:3px;}
 .content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
-
-.section-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
+.sec-label{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;}
 
 /* ── PREVIEW ── */
-.preview-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.preview-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:background .3s,border-color .3s;}
 .preview-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--s1);}
-.preview-bar span{font-size:11px;color:var(--muted);flex:1;}
+.preview-bar span{font-size:10px;color:var(--muted);flex:1;font-family:monospace;}
 .dots{display:flex;gap:5px;}
 .dot{width:10px;height:10px;border-radius:50%;}
-.preview-body{padding:20px;background:#fff;overflow-x:auto;}
+.preview-body{padding:20px;background:#ffffff;overflow-x:auto;}
 
 /* ── CODE BOX ── */
 .code-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
 .code-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);}
-.code-bar span{font-size:11px;color:var(--muted);flex:1;font-family:monospace;}
-textarea#output{width:100%;background:transparent;border:none;outline:none;resize:none;
-  color:#a5d6a7;font-size:11px;font-family:'Courier New',monospace;
-  padding:14px;min-height:130px;line-height:1.65;}
+.code-bar span{font-size:10px;color:var(--muted);flex:1;font-family:monospace;}
+textarea#output{width:100%;background:transparent;border:none;outline:none;resize:none;color:#86efac;font-size:11px;font-family:'Courier New',monospace;padding:14px;min-height:120px;line-height:1.7;}
+[data-theme="light"] textarea#output{color:#166534;}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:600;
-  box-shadow:0 8px 32px var(--glow);transform:translateY(80px);opacity:0;
-  transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none;}
+.toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:600;box-shadow:0 8px 32px var(--glow);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
 /* ── MOBILE ── */
 @media(max-width:768px){
   html,body{overflow:auto;}
-  .app{flex-direction:column;height:auto;overflow:visible;}
+  .app{flex-direction:column;height:auto;}
   aside{width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border);}
   main{height:auto;overflow:visible;}
   .content{overflow:visible;}
   .preview-body{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .topbar{flex-wrap:wrap;gap:6px;}
+  .topbar{flex-wrap:wrap;}
   .topbar-info{flex:1 1 100%;}
 }
 @media(max-width:480px){
-  .sh{padding:14px;}
-  .content{padding:14px;}
+  .sh,.content{padding:12px;}
   .btn span{display:none;}
+  .tab{font-size:9px;padding:6px 2px;}
 }
 </style>
 </head>
@@ -151,27 +162,29 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
 <!-- ══ SIDEBAR ══ -->
 <aside>
   <div class="sh">
-    <div class="sh-brand">
+    <div class="sh-top">
       <div class="sh-logo">✍️</div>
-      <div>
-        <h1>SigBuilder Pro</h1>
-        <p>Global Solutions · Email Signatures</p>
+      <div class="sh-info">
+        <h1>GS Bayoumi Sig Generator</h1>
+        <p>Global Solutions · Professional Signatures</p>
       </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Toggle Light/Dark">🌙</button>
     </div>
     <div class="tabs">
       <button class="tab active" onclick="switchTab('personal',this)">👤 Personal</button>
       <button class="tab" onclick="switchTab('contact',this)">📞 Contact</button>
+      <button class="tab" onclick="switchTab('social',this)">🔗 Social</button>
       <button class="tab" onclick="switchTab('badges',this)">🏅 Badges</button>
     </div>
   </div>
 
   <div class="sb">
 
-    <!-- PERSONAL PANEL -->
+    <!-- PERSONAL -->
     <div class="panel active" id="panel-personal">
       <div class="acc open">
         <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon purple">👤</div>
+          <div class="acc-icon ic-purple">👤</div>
           <span class="acc-title">Identity</span>
           <span class="acc-arrow">▼</span>
         </div>
@@ -182,12 +195,12 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
       </div>
     </div>
 
-    <!-- CONTACT PANEL -->
+    <!-- CONTACT -->
     <div class="panel" id="panel-contact">
       <div class="acc open">
         <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon blue">📞</div>
-          <span class="acc-title">Phone</span>
+          <div class="acc-icon ic-blue">📞</div>
+          <span class="acc-title">Phone Numbers</span>
           <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
@@ -197,19 +210,23 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
       </div>
       <div class="acc open">
         <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon teal">✉️</div>
-          <span class="acc-title">Email & Web</span>
+          <div class="acc-icon ic-teal">✉️</div>
+          <span class="acc-title">Email & Website</span>
           <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
-          <div class="field"><label>Personal Email</label><input id="f-e1" value="a.eldaly@globalsolutions.sa" oninput="update()"></div>
+          <div class="field"><label>Personal Email</label><input id="f-e1" value="omar@globalsolutions.sa" oninput="update()"></div>
           <div class="field"><label>Company Email</label><input id="f-e2" value="info@globalsolutions.sa" oninput="update()"></div>
           <div class="field"><label>Website</label><input id="f-web" value="globalsolutions.sa" oninput="update()"></div>
         </div>
       </div>
-      <div class="acc">
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="panel" id="panel-social">
+      <div class="acc open">
         <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon amber">🔗</div>
+          <div class="acc-icon ic-amber">🔗</div>
           <span class="acc-title">Social Links</span>
           <span class="acc-arrow">▼</span>
         </div>
@@ -222,31 +239,28 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
       </div>
     </div>
 
-    <!-- BADGES PANEL -->
+    <!-- BADGES -->
     <div class="panel" id="panel-badges">
       <div class="acc open">
         <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon amber">🏅</div>
+          <div class="acc-icon ic-amber">🏅</div>
           <span class="acc-title">Badge Image URLs</span>
           <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
-          <div class="field">
-            <label>Badge 1</label>
+          <div class="field"><label>Badge 1</label>
             <div class="img-row">
               <input id="f-b1" value="https://globalsolutions.sa/assets/images/1.png" oninput="update();thumb('f-b1','th1')">
               <img id="th1" class="thumb" src="https://globalsolutions.sa/assets/images/1.png" onerror="this.style.opacity=.3">
             </div>
           </div>
-          <div class="field">
-            <label>Badge 2</label>
+          <div class="field"><label>Badge 2</label>
             <div class="img-row">
               <input id="f-b2" value="https://globalsolutions.sa/assets/images/2.png" oninput="update();thumb('f-b2','th2')">
               <img id="th2" class="thumb" src="https://globalsolutions.sa/assets/images/2.png" onerror="this.style.opacity=.3">
             </div>
           </div>
-          <div class="field">
-            <label>Badge 3</label>
+          <div class="field"><label>Badge 3</label>
             <div class="img-row">
               <input id="f-b3" value="https://globalsolutions.sa/assets/images/3.webp" oninput="update();thumb('f-b3','th3')">
               <img id="th3" class="thumb" src="https://globalsolutions.sa/assets/images/3.webp" onerror="this.style.opacity=.3">
@@ -264,7 +278,7 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
   <div class="topbar">
     <div class="topbar-info" style="flex:1;min-width:0;">
       <div class="topbar-title">Live Preview</div>
-      <div class="topbar-sub">Updates as you type</div>
+      <div class="topbar-sub">Signature updates as you type</div>
     </div>
     <button class="btn btn-ghost" onclick="update()">🔄 <span>Refresh</span></button>
     <button class="btn btn-primary" onclick="copyCode()">📋 <span>Copy HTML</span></button>
@@ -272,9 +286,8 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
 
   <div class="content">
 
-    <!-- Preview -->
     <div>
-      <div class="section-label">Signature Preview</div>
+      <div class="sec-label">Signature Preview</div>
       <div class="preview-wrap">
         <div class="preview-bar">
           <div class="dots">
@@ -282,17 +295,14 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
             <div class="dot" style="background:#febc2e"></div>
             <div class="dot" style="background:#28c840"></div>
           </div>
-          <span>email-signature.html</span>
+          <span>email-signature.html · Live</span>
         </div>
-        <div class="preview-body">
-          <div id="preview"></div>
-        </div>
+        <div class="preview-body"><div id="preview"></div></div>
       </div>
     </div>
 
-    <!-- Code -->
     <div>
-      <div class="section-label">Generated HTML — paste into your email client</div>
+      <div class="sec-label">Generated HTML — copy & paste into your email client</div>
       <div class="code-wrap">
         <div class="code-bar">
           <div class="dots">
@@ -311,15 +321,27 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
 </main>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast">✅ HTML Copied to Clipboard!</div>
 
 <script>
 const CDN = 'https://ebxbilo.stripocdn.email/content/guids/CABINET_8de4b19a6bcca5f6e772deb0e6f72645a513236dd8bca9fac56b4707cdb745c6/images/';
-
 const v = id => document.getElementById(id).value.trim();
 
-/* Tab switching */
+/* ── THEME ── */
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('gs-theme', isDark ? 'light' : 'dark');
+}
+(function initTheme() {
+  const saved = localStorage.getItem('gs-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('theme-btn').textContent = saved === 'dark' ? '🌙' : '☀️';
+})();
+
+/* ── TABS ── */
 function switchTab(name, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -327,130 +349,115 @@ function switchTab(name, btn) {
   document.getElementById('panel-' + name).classList.add('active');
 }
 
-/* Accordion */
-function toggleAcc(head) {
-  head.parentElement.classList.toggle('open');
-}
+/* ── ACCORDION ── */
+function toggleAcc(head) { head.parentElement.classList.toggle('open'); }
 
-/* Thumb preview */
-function thumb(inputId, imgId) {
-  document.getElementById(imgId).src = document.getElementById(inputId).value.trim();
-}
+/* ── THUMB ── */
+function thumb(iId, imgId) { document.getElementById(imgId).src = v(iId); }
 
-/* Build HTML */
+/* ── BUILD SIGNATURE HTML ── */
 function build() {
-  const cs = 'font-size:9px;color:black;font-family:Arial,Helvetica,sans-serif;line-height:9px;margin:0.1px;text-align:right;text-decoration:none;';
+  const cs = 'font-size:9px;color:black;font-family:Arial,Helvetica,sans-serif;line-height:13px;margin:0;text-align:right;text-decoration:none;display:block;';
   return `<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--[if !mso]><!-- --><meta http-equiv="X-UA-Compatible" content="IE=edge" /><!--<![endif]-->
-    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
-    <meta name="x-apple-disable-message-reformatting" />
-    <style>@font-face{font-family:'Inter';font-style:normal;font-weight:470;src:url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjg.woff') format('woff');}</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--[if !mso]><!-- --><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="x-apple-disable-message-reformatting">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
 </head>
-<body align="left" style="width:500px!important;min-height:166px!important;margin:0!important;padding:0!important;background-color:#ffffff;" bgcolor="#ffffff">
-<table border="0" width="500" height="166" cellspacing="0" cellpadding="0" style="table-layout:fixed;min-height:166px;min-width:500px;background-color:#ffffff;font-family:Arial,Helvetica,sans-serif;" bgcolor="#ffffff" role="presentation">
+<body align="left" style="margin:0!important;padding:0!important;background-color:#ffffff!important;" bgcolor="#ffffff">
+<table border="0" width="560" height="166" cellspacing="0" cellpadding="0"
+  style="table-layout:fixed;background-color:#ffffff!important;font-family:'Poppins',Arial,Helvetica,sans-serif;"
+  bgcolor="#ffffff" role="presentation">
   <tr>
     <!-- LEFT: Logo -->
-    <td width="167" height="166" align="left" valign="middle" style="margin:0.1px;padding:0;">
-      <img src="${CDN}blobal_main_logo2x.png" alt="" width="167" height="166" style="min-height:166px;min-width:167px;">
+    <td width="167" height="166" align="left" valign="top" style="padding:0;margin:0;line-height:0;font-size:0;">
+      <img src="${CDN}blobal_main_logo2x.png" alt="Global Solutions" width="167" height="166"
+        style="display:block;width:167px;height:166px;min-width:167px;min-height:166px;">
     </td>
-    <!-- CENTER: Name + Badges -->
-    <td width="190" height="166" align="center" valign="middle" style="margin:0.1px;padding:0;">
-      <table border="0" width="190" cellspacing="0" cellpadding="0">
+    <!-- CENTER: Name + Title + Badges -->
+    <td width="220" height="166" align="center" valign="middle" style="padding:10px 8px;">
+      <table border="0" width="204" cellspacing="0" cellpadding="0">
         <tr>
-          <td align="center" style="padding-bottom:8px;">
-            <p style="font-size:18px;font-weight:900;color:#1a2a6c;font-family:Arial,Helvetica,sans-serif;letter-spacing:1px;margin:0;white-space:nowrap;">${v('f-name')}</p>
-            <p style="font-size:9px;font-weight:400;color:#555555;font-family:Arial,Helvetica,sans-serif;margin:4px 0 0 0;">${v('f-title')}</p>
+          <td align="center" style="padding-bottom:2px;">
+            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:19px;font-weight:700;color:#1a2a6c;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;">${v('f-name')}</div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:4px 0 2px;">
+            <div style="width:50px;height:1.5px;background:#1a2a6c;margin:0 auto;opacity:0.3;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-bottom:10px;">
+            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:8px;font-weight:300;color:#888888;letter-spacing:3px;text-transform:uppercase;">${v('f-title')}</div>
           </td>
         </tr>
         <tr>
           <td align="center">
             <table border="0" cellspacing="0" cellpadding="0"><tr>
-              <td style="padding:0 3px;"><img src="${v('f-b1')}" alt="" width="50" height="50" style="display:block;"></td>
-              <td style="padding:0 3px;"><img src="${v('f-b2')}" alt="" width="50" height="50" style="display:block;"></td>
-              <td style="padding:0 3px;"><img src="${v('f-b3')}" alt="" width="50" height="50" style="display:block;"></td>
+              <td style="padding:0 4px;"><img src="${v('f-b1')}" alt="" width="52" height="52" style="display:block;width:52px;height:52px;"></td>
+              <td style="padding:0 4px;"><img src="${v('f-b2')}" alt="" width="52" height="52" style="display:block;width:52px;height:52px;"></td>
+              <td style="padding:0 4px;"><img src="${v('f-b3')}" alt="" width="52" height="52" style="display:block;width:52px;height:52px;"></td>
             </tr></table>
           </td>
         </tr>
       </table>
     </td>
     <!-- RIGHT: Contact -->
-    <td width="167" height="166" align="right" valign="middle">
-      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+    <td width="173" height="166" align="right" valign="top" style="padding:0;">
+      <table border="0" width="173" height="166" cellspacing="0" cellpadding="0">
         <tr>
-          <td height="70" align="right" valign="top" style="margin:0.1px;font-size:0.1px;">
-            <img src="${CDN}odoo_logo_and_ornament2x.png" alt="" width="131" height="70" style="min-height:70px;min-width:131px;">
+          <td height="70" align="right" valign="top" style="font-size:0;line-height:0;padding:0;">
+            <img src="${CDN}odoo_logo_and_ornament2x.png" alt="" width="131" height="70"
+              style="display:block;margin-left:auto;min-height:70px;min-width:131px;">
           </td>
         </tr>
         <tr>
           <td>
-            <table border="0" width="167" height="65" cellspacing="0" cellpadding="0">
-              <tr height="20">
-                <td height="20" valign="middle" style="${cs}text-align:right;">
-                  <p style="${cs}text-align:right;">
-                    <a href="tel:${v('f-p1').replace(/\s/g,'')}" target="_blank" style="${cs}">${v('f-p1')}</a><br>
-                    <a href="tel:${v('f-p2').split(' ')[0]}" target="_blank" style="${cs}">${v('f-p2')}</a>
-                  </p>
+            <table border="0" width="173" cellspacing="0" cellpadding="0">
+              <tr height="22">
+                <td valign="middle" style="padding-right:3px;">
+                  <a href="tel:${v('f-p1').replace(/\s/g,'')}" target="_blank" style="${cs}">${v('f-p1')}</a>
+                  <a href="tel:${v('f-p2').split(' ')[0]}" target="_blank" style="${cs}">${v('f-p2')}</a>
                 </td>
-                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
-                  <img src="${CDN}phone2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                <td width="22" valign="middle" align="right">
+                  <img src="${CDN}phone2x.png" alt="" width="16" height="16" style="display:block;min-width:16px;min-height:16px;">
                 </td>
               </tr>
-              <tr height="20">
-                <td height="20" valign="middle" style="${cs}text-align:right;">
-                  <p style="${cs}text-align:right;">
-                    <a href="mailto:${v('f-e1')}" target="_blank" style="${cs}">${v('f-e1')}</a><br>
-                    <a href="mailto:${v('f-e2')}" target="_blank" style="${cs}">${v('f-e2')}</a>
-                  </p>
+              <tr height="22">
+                <td valign="middle" style="padding-right:3px;">
+                  <a href="mailto:${v('f-e1')}" target="_blank" style="${cs}">${v('f-e1')}</a>
+                  <a href="mailto:${v('f-e2')}" target="_blank" style="${cs}">${v('f-e2')}</a>
                 </td>
-                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
-                  <img src="${CDN}email2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                <td width="22" valign="middle" align="right">
+                  <img src="${CDN}email2x.png" alt="" width="16" height="16" style="display:block;min-width:16px;min-height:16px;">
                 </td>
               </tr>
-              <tr height="20">
-                <td height="20" valign="middle" style="${cs}text-align:right;">
-                  <p style="${cs}text-align:right;">
-                    <a href="https://${v('f-web')}" target="_blank" style="${cs}">${v('f-web')}</a>
-                  </p>
+              <tr height="18">
+                <td valign="middle" style="padding-right:3px;">
+                  <a href="https://${v('f-web')}" target="_blank" style="${cs}">${v('f-web')}</a>
                 </td>
-                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
-                  <img src="${CDN}web2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                <td width="22" valign="middle" align="right">
+                  <img src="${CDN}web2x.png" alt="" width="16" height="16" style="display:block;min-width:16px;min-height:16px;">
                 </td>
               </tr>
             </table>
           </td>
         </tr>
-        <tr height="16">
-          <td height="16" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;">
-            <table border="0" height="16" width="72" cellspacing="0" cellpadding="0"><tr height="16">
-              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
-                <a href="${v('f-fb')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
-                  <img src="${CDN}facebook2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
-                </a>
-              </td>
-              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
-                <a href="${v('f-ig')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
-                  <img src="${CDN}instagram2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
-                </a>
-              </td>
-              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
-                <a href="${v('f-x')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
-                  <img src="${CDN}x2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
-                </a>
-              </td>
-              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
-                <a href="${v('f-li')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
-                  <img src="${CDN}linkedin2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
-                </a>
-              </td>
+        <tr>
+          <td height="20" align="right" valign="middle" style="padding-top:4px;">
+            <table border="0" cellspacing="0" cellpadding="0"><tr>
+              <td style="padding-left:4px;"><a href="${v('f-fb')}" target="_blank"><img src="${CDN}facebook2x.png" alt="" width="16" height="16" style="display:block;"></a></td>
+              <td style="padding-left:4px;"><a href="${v('f-ig')}" target="_blank"><img src="${CDN}instagram2x.png" alt="" width="16" height="16" style="display:block;"></a></td>
+              <td style="padding-left:4px;"><a href="${v('f-x')}" target="_blank"><img src="${CDN}x2x.png" alt="" width="16" height="16" style="display:block;"></a></td>
+              <td style="padding-left:4px;"><a href="${v('f-li')}" target="_blank"><img src="${CDN}linkedin2x.png" alt="" width="16" height="16" style="display:block;"></a></td>
             </tr></table>
           </td>
         </tr>
-        <tr>
-          <td height="15" style="font-size:0.1px;line-height:0.1px;margin:0.1px;color:#ffffff;"><p>.</p></td>
-        </tr>
+        <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
       </table>
     </td>
   </tr>
@@ -469,9 +476,9 @@ function copyCode() {
   const ta = document.getElementById('output');
   ta.select();
   document.execCommand('copy');
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 update();
