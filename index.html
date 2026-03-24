@@ -3,206 +3,254 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Global Solutions · Signature Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: #2e3347;
-    --accent: #4f6ef7;
-    --accent2: #6c3fc5;
-    --text: #e8eaf6;
-    --muted: #7b82a8;
-    --success: #22c55e;
-    --radius: 12px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; gap: 0; }
+:root {
+  --bg:       #080b14;
+  --s1:       #0e1120;
+  --s2:       #131729;
+  --s3:       #1a1f35;
+  --border:   #232840;
+  --border2:  #2e3555;
+  --accent:   #5b6ef5;
+  --accent2:  #8b5cf6;
+  --glow:     rgba(91,110,245,.25);
+  --text:     #e8eaf6;
+  --muted:    #636b96;
+  --muted2:   #9099c4;
+  --success:  #22c55e;
+  --r:        14px;
+  --r-sm:     8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;}
 
-  /* ── SIDEBAR ── */
-  aside {
-    width: 340px; min-width: 300px; background: var(--surface);
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    height: 100vh; overflow-y: auto;
-  }
-  .sidebar-header {
-    padding: 20px 20px 16px;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(135deg, #1a1d27 0%, #1e2236 100%);
-  }
-  .sidebar-header h1 { font-size: 15px; font-weight: 700; letter-spacing: .3px; }
-  .sidebar-header p  { font-size: 11px; color: var(--muted); margin-top: 3px; }
-  .logo-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 6px; padding: 3px 8px; margin-bottom: 10px;
-    font-size: 10px; font-weight: 600; letter-spacing: .5px;
-  }
+/* ── LAYOUT ── */
+.app{display:flex;height:100vh;overflow:hidden;}
+aside{width:360px;min-width:300px;display:flex;flex-direction:column;background:var(--s1);border-right:1px solid var(--border);height:100vh;}
+main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0;}
 
-  .sections { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+/* ── SIDEBAR HEADER ── */
+.sh{padding:18px 18px 14px;border-bottom:1px solid var(--border);flex-shrink:0;
+  background:linear-gradient(160deg,#0e1428 0%,#111830 100%);}
+.sh-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sh-logo{width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  box-shadow:0 0 16px var(--glow);}
+.sh-brand h1{font-size:14px;font-weight:700;letter-spacing:.2px;}
+.sh-brand p{font-size:10px;color:var(--muted);margin-top:1px;}
+.tabs{display:flex;gap:4px;background:var(--s2);border-radius:var(--r-sm);padding:3px;}
+.tab{flex:1;padding:6px;border-radius:6px;border:none;background:transparent;
+  color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:all .2s;}
+.tab.active{background:var(--s3);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.4);}
 
-  .section {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .section-head {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 14px; cursor: pointer;
-    user-select: none; font-size: 12px; font-weight: 600;
-    border-bottom: 1px solid transparent;
-    transition: background .15s;
-  }
-  .section-head:hover { background: rgba(255,255,255,.04); }
-  .section-head.open { border-bottom-color: var(--border); }
-  .section-head .icon { font-size: 14px; }
-  .section-head .chevron { margin-left: auto; transition: transform .2s; color: var(--muted); font-size: 10px; }
-  .section-head.open .chevron { transform: rotate(180deg); }
-  .section-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; }
-  .section-body.hidden { display: none; }
+/* ── SIDEBAR BODY ── */
+.sb{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.sb::-webkit-scrollbar{width:4px;}
+.sb::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
 
-  label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; display: block; margin-bottom: 4px; }
-  input[type=text] {
-    width: 100%; background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 10px; color: var(--text);
-    font-size: 12px; font-family: inherit; outline: none;
-    transition: border-color .15s;
-  }
-  input[type=text]:focus { border-color: var(--accent); }
-  input[type=text]::placeholder { color: var(--muted); }
+.panel{display:none;}
+.panel.active{display:flex;flex-direction:column;gap:8px;}
 
-  .img-field { display: flex; align-items: center; gap: 8px; }
-  .img-field input { flex: 1; }
-  .img-thumb {
-    width: 36px; height: 36px; border-radius: 6px;
-    border: 1px solid var(--border); object-fit: contain;
-    background: var(--bg); flex-shrink: 0;
-  }
+/* ── ACCORDION ── */
+.acc{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s;}
+.acc:focus-within{border-color:var(--border2);}
+.acc-head{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;user-select:none;transition:background .15s;}
+.acc-head:hover{background:rgba(255,255,255,.03);}
+.acc-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.acc-icon.purple{background:rgba(139,92,246,.15);}
+.acc-icon.blue  {background:rgba(91,110,245,.15);}
+.acc-icon.teal  {background:rgba(20,184,166,.15);}
+.acc-icon.amber {background:rgba(251,191,36,.15);}
+.acc-title{font-size:12px;font-weight:600;flex:1;}
+.acc-arrow{color:var(--muted);font-size:9px;transition:transform .25s;}
+.acc.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{padding:0 14px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;}
+.acc.open .acc-body{max-height:600px;padding:0 14px 14px;}
 
-  /* ── MAIN ── */
-  main { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+/* ── FIELDS ── */
+.field{display:flex;flex-direction:column;gap:5px;margin-top:10px;}
+.field:first-child{margin-top:0;}
+.field label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.field input{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:9px 11px;color:var(--text);font-size:12px;font-family:inherit;outline:none;
+  transition:border-color .15s,box-shadow .15s;width:100%;}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow);}
+.field input::placeholder{color:var(--muted);}
+.img-row{display:flex;gap:8px;align-items:center;}
+.img-row input{flex:1;}
+.thumb{width:38px;height:38px;border-radius:8px;border:1px solid var(--border);
+  object-fit:contain;background:var(--s1);flex-shrink:0;}
 
-  .topbar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 20px; border-bottom: 1px solid var(--border);
-    background: var(--surface);
-  }
-  .topbar h2 { font-size: 13px; font-weight: 600; flex: 1; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: 8px; font-size: 12px;
-    font-weight: 600; cursor: pointer; border: none; transition: all .15s;
-    font-family: inherit;
-  }
-  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
-  .btn-primary:hover { opacity: .9; }
-  .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-  .btn-ghost:hover { background: var(--border); }
-  .btn-success { background: #14532d; color: var(--success); border: 1px solid #166534; }
+/* ── MAIN TOPBAR ── */
+.topbar{display:flex;align-items:center;gap:8px;padding:14px 18px;
+  border-bottom:1px solid var(--border);background:var(--s1);flex-shrink:0;}
+.topbar-title{font-size:13px;font-weight:600;flex:1;}
+.topbar-sub{font-size:10px;color:var(--muted);margin-top:1px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-sm);
+  font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 2px 12px var(--glow);}
+.btn-primary:hover{opacity:.88;box-shadow:0 4px 20px var(--glow);}
+.btn-ghost{background:var(--s3);color:var(--muted2);border:1px solid var(--border);}
+.btn-ghost:hover{color:var(--text);border-color:var(--border2);}
 
-  .content { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
 
-  /* Preview box */
-  .preview-box {
-    background: #fff; border-radius: var(--radius);
-    padding: 20px; display: inline-block;
-    box-shadow: 0 4px 24px rgba(0,0,0,.4);
-  }
-  .preview-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.section-label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;}
 
-  /* Code output */
-  .code-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden;
-  }
-  .code-header { display: flex; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); gap: 8px; }
-  .code-header span { font-size: 11px; color: var(--muted); font-weight: 600; flex: 1; }
-  .code-dots { display: flex; gap: 5px; }
-  .code-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
-  textarea#output {
-    width: 100%; background: transparent; border: none; outline: none;
-    color: #a5d6a7; font-size: 11px; font-family: 'Courier New', monospace;
-    padding: 14px; resize: vertical; min-height: 160px; line-height: 1.6;
-  }
+/* ── PREVIEW ── */
+.preview-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.preview-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--s1);}
+.preview-bar span{font-size:11px;color:var(--muted);flex:1;}
+.dots{display:flex;gap:5px;}
+.dot{width:10px;height:10px;border-radius:50%;}
+.preview-body{padding:20px;background:#fff;overflow-x:auto;}
+
+/* ── CODE BOX ── */
+.code-wrap{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.code-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);}
+.code-bar span{font-size:11px;color:var(--muted);flex:1;font-family:monospace;}
+textarea#output{width:100%;background:transparent;border:none;outline:none;resize:none;
+  color:#a5d6a7;font-size:11px;font-family:'Courier New',monospace;
+  padding:14px;min-height:130px;line-height:1.65;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;padding:10px 18px;border-radius:10px;font-size:12px;font-weight:600;
+  box-shadow:0 8px 32px var(--glow);transform:translateY(80px);opacity:0;
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  html,body{overflow:auto;}
+  .app{flex-direction:column;height:auto;overflow:visible;}
+  aside{width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border);}
+  main{height:auto;overflow:visible;}
+  .content{overflow:visible;}
+  .preview-body{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .topbar{flex-wrap:wrap;gap:6px;}
+  .topbar-info{flex:1 1 100%;}
+}
+@media(max-width:480px){
+  .sh{padding:14px;}
+  .content{padding:14px;}
+  .btn span{display:none;}
+}
 </style>
 </head>
 <body>
+<div class="app">
 
 <!-- ══ SIDEBAR ══ -->
 <aside>
-  <div class="sidebar-header">
-    <div class="logo-badge">⚡ SigBuilder</div>
-    <h1>Signature Generator</h1>
-    <p>Global Solutions · Email Signature</p>
+  <div class="sh">
+    <div class="sh-brand">
+      <div class="sh-logo">✍️</div>
+      <div>
+        <h1>SigBuilder Pro</h1>
+        <p>Global Solutions · Email Signatures</p>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('personal',this)">👤 Personal</button>
+      <button class="tab" onclick="switchTab('contact',this)">📞 Contact</button>
+      <button class="tab" onclick="switchTab('badges',this)">🏅 Badges</button>
+    </div>
   </div>
-  <div class="sections">
 
-    <!-- Personal -->
-    <div class="section">
-      <div class="section-head open" onclick="toggle(this)">
-        <span class="icon">👤</span> Personal Info <span class="chevron">▼</span>
-      </div>
-      <div class="section-body">
-        <div><label>Full Name</label><input type="text" id="f-name" value="Omar Elbayoumi" oninput="update()"></div>
-        <div><label>Job Title</label><input type="text" id="f-title" value="Web Developer" oninput="update()"></div>
-      </div>
-    </div>
+  <div class="sb">
 
-    <!-- Contact -->
-    <div class="section">
-      <div class="section-head open" onclick="toggle(this)">
-        <span class="icon">📞</span> Contact <span class="chevron">▼</span>
-      </div>
-      <div class="section-body">
-        <div><label>Mobile</label><input type="text" id="f-p1" value="0541512512" oninput="update()"></div>
-        <div><label>Office + Ext</label><input type="text" id="f-p2" value="0126546968 Ext: 101" oninput="update()"></div>
-        <div><label>Personal Email</label><input type="text" id="f-e1" value="a.eldaly@globalsolutions.sa" oninput="update()"></div>
-        <div><label>Company Email</label><input type="text" id="f-e2" value="info@globalsolutions.sa" oninput="update()"></div>
-        <div><label>Website</label><input type="text" id="f-web" value="globalsolutions.sa" oninput="update()"></div>
-      </div>
-    </div>
-
-    <!-- Social -->
-    <div class="section">
-      <div class="section-head" onclick="toggle(this)">
-        <span class="icon">🔗</span> Social Links <span class="chevron">▼</span>
-      </div>
-      <div class="section-body hidden">
-        <div><label>Facebook URL</label><input type="text" id="f-fb" value="https://web.facebook.com/odoo?_rdc=1&_rdr" oninput="update()"></div>
-        <div><label>Instagram URL</label><input type="text" id="f-ig" value="https://www.instagram.com/odoo.official" oninput="update()"></div>
-        <div><label>X (Twitter) URL</label><input type="text" id="f-x" value="https://x.com/Odoo" oninput="update()"></div>
-        <div><label>LinkedIn URL</label><input type="text" id="f-li" value="https://www.linkedin.com/company/odoo" oninput="update()"></div>
-      </div>
-    </div>
-
-    <!-- Badges -->
-    <div class="section">
-      <div class="section-head open" onclick="toggle(this)">
-        <span class="icon">🏅</span> Badge Images <span class="chevron">▼</span>
-      </div>
-      <div class="section-body">
-        <div>
-          <label>Badge 1 URL</label>
-          <div class="img-field">
-            <input type="text" id="f-b1" value="https://globalsolutions.sa/assets/images/1.png" oninput="update();previewThumb('f-b1','t1')">
-            <img id="t1" class="img-thumb" src="https://globalsolutions.sa/assets/images/1.png">
-          </div>
+    <!-- PERSONAL PANEL -->
+    <div class="panel active" id="panel-personal">
+      <div class="acc open">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-icon purple">👤</div>
+          <span class="acc-title">Identity</span>
+          <span class="acc-arrow">▼</span>
         </div>
-        <div>
-          <label>Badge 2 URL</label>
-          <div class="img-field">
-            <input type="text" id="f-b2" value="https://globalsolutions.sa/assets/images/2.png" oninput="update();previewThumb('f-b2','t2')">
-            <img id="t2" class="img-thumb" src="https://globalsolutions.sa/assets/images/2.png">
-          </div>
+        <div class="acc-body">
+          <div class="field"><label>Full Name</label><input id="f-name" value="Omar Elbayoumi" oninput="update()"></div>
+          <div class="field"><label>Job Title</label><input id="f-title" value="Web Developer" oninput="update()"></div>
         </div>
-        <div>
-          <label>Badge 3 URL</label>
-          <div class="img-field">
-            <input type="text" id="f-b3" value="https://globalsolutions.sa/assets/images/3.webp" oninput="update();previewThumb('f-b3','t3')">
-            <img id="t3" class="img-thumb" src="https://globalsolutions.sa/assets/images/3.webp">
+      </div>
+    </div>
+
+    <!-- CONTACT PANEL -->
+    <div class="panel" id="panel-contact">
+      <div class="acc open">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-icon blue">📞</div>
+          <span class="acc-title">Phone</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="field"><label>Mobile</label><input id="f-p1" value="0541512512" oninput="update()"></div>
+          <div class="field"><label>Office + Ext</label><input id="f-p2" value="0126546968 Ext: 101" oninput="update()"></div>
+        </div>
+      </div>
+      <div class="acc open">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-icon teal">✉️</div>
+          <span class="acc-title">Email & Web</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="field"><label>Personal Email</label><input id="f-e1" value="a.eldaly@globalsolutions.sa" oninput="update()"></div>
+          <div class="field"><label>Company Email</label><input id="f-e2" value="info@globalsolutions.sa" oninput="update()"></div>
+          <div class="field"><label>Website</label><input id="f-web" value="globalsolutions.sa" oninput="update()"></div>
+        </div>
+      </div>
+      <div class="acc">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-icon amber">🔗</div>
+          <span class="acc-title">Social Links</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="field"><label>Facebook</label><input id="f-fb" value="https://web.facebook.com/odoo?_rdc=1&_rdr" oninput="update()"></div>
+          <div class="field"><label>Instagram</label><input id="f-ig" value="https://www.instagram.com/odoo.official" oninput="update()"></div>
+          <div class="field"><label>X (Twitter)</label><input id="f-x" value="https://x.com/Odoo" oninput="update()"></div>
+          <div class="field"><label>LinkedIn</label><input id="f-li" value="https://www.linkedin.com/company/odoo" oninput="update()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES PANEL -->
+    <div class="panel" id="panel-badges">
+      <div class="acc open">
+        <div class="acc-head" onclick="toggleAcc(this)">
+          <div class="acc-icon amber">🏅</div>
+          <span class="acc-title">Badge Image URLs</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="field">
+            <label>Badge 1</label>
+            <div class="img-row">
+              <input id="f-b1" value="https://globalsolutions.sa/assets/images/1.png" oninput="update();thumb('f-b1','th1')">
+              <img id="th1" class="thumb" src="https://globalsolutions.sa/assets/images/1.png" onerror="this.style.opacity=.3">
+            </div>
+          </div>
+          <div class="field">
+            <label>Badge 2</label>
+            <div class="img-row">
+              <input id="f-b2" value="https://globalsolutions.sa/assets/images/2.png" oninput="update();thumb('f-b2','th2')">
+              <img id="th2" class="thumb" src="https://globalsolutions.sa/assets/images/2.png" onerror="this.style.opacity=.3">
+            </div>
+          </div>
+          <div class="field">
+            <label>Badge 3</label>
+            <div class="img-row">
+              <input id="f-b3" value="https://globalsolutions.sa/assets/images/3.webp" oninput="update();thumb('f-b3','th3')">
+              <img id="th3" class="thumb" src="https://globalsolutions.sa/assets/images/3.webp" onerror="this.style.opacity=.3">
+            </div>
           </div>
         </div>
       </div>
@@ -214,185 +262,199 @@
 <!-- ══ MAIN ══ -->
 <main>
   <div class="topbar">
-    <h2>Live Preview & Output</h2>
-    <button class="btn btn-ghost" onclick="update()">🔄 Refresh</button>
-    <button class="btn btn-primary" onclick="copyCode()">📋 Copy HTML</button>
+    <div class="topbar-info" style="flex:1;min-width:0;">
+      <div class="topbar-title">Live Preview</div>
+      <div class="topbar-sub">Updates as you type</div>
+    </div>
+    <button class="btn btn-ghost" onclick="update()">🔄 <span>Refresh</span></button>
+    <button class="btn btn-primary" onclick="copyCode()">📋 <span>Copy HTML</span></button>
   </div>
 
   <div class="content">
+
+    <!-- Preview -->
     <div>
-      <div class="preview-label">Preview</div>
-      <div class="preview-box">
-        <div id="preview"></div>
+      <div class="section-label">Signature Preview</div>
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <div class="dots">
+            <div class="dot" style="background:#ff5f57"></div>
+            <div class="dot" style="background:#febc2e"></div>
+            <div class="dot" style="background:#28c840"></div>
+          </div>
+          <span>email-signature.html</span>
+        </div>
+        <div class="preview-body">
+          <div id="preview"></div>
+        </div>
       </div>
     </div>
 
-    <div class="code-box">
-      <div class="code-header">
-        <div class="code-dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
-        <span>signature.html — ready to paste</span>
-        <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px;" onclick="copyCode()">Copy</button>
+    <!-- Code -->
+    <div>
+      <div class="section-label">Generated HTML — paste into your email client</div>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <div class="dots">
+            <div class="dot" style="background:#ff5f57"></div>
+            <div class="dot" style="background:#febc2e"></div>
+            <div class="dot" style="background:#28c840"></div>
+          </div>
+          <span>signature.html</span>
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;" onclick="copyCode()">Copy</button>
+        </div>
+        <textarea id="output" readonly spellcheck="false"></textarea>
       </div>
-      <textarea id="output" readonly></textarea>
     </div>
+
   </div>
 </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✅ HTML Copied to Clipboard!</div>
 
 <script>
 const CDN = 'https://ebxbilo.stripocdn.email/content/guids/CABINET_8de4b19a6bcca5f6e772deb0e6f72645a513236dd8bca9fac56b4707cdb745c6/images/';
 
-function v(id) { return document.getElementById(id).value.trim(); }
+const v = id => document.getElementById(id).value.trim();
 
-function toggle(head) {
-  head.classList.toggle('open');
-  const body = head.nextElementSibling;
-  body.classList.toggle('hidden');
+/* Tab switching */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
 }
 
-function previewThumb(inputId, imgId) {
-  const img = document.getElementById(imgId);
-  img.src = document.getElementById(inputId).value.trim();
+/* Accordion */
+function toggleAcc(head) {
+  head.parentElement.classList.toggle('open');
 }
 
+/* Thumb preview */
+function thumb(inputId, imgId) {
+  document.getElementById(imgId).src = document.getElementById(inputId).value.trim();
+}
+
+/* Build HTML */
 function build() {
-  const name  = v('f-name');
-  const title = v('f-title');
-  const p1    = v('f-p1');
-  const p2    = v('f-p2');
-  const e1    = v('f-e1');
-  const e2    = v('f-e2');
-  const web   = v('f-web');
-  const fb    = v('f-fb');
-  const ig    = v('f-ig');
-  const xurl  = v('f-x');
-  const li    = v('f-li');
-  const b1    = v('f-b1');
-  const b2    = v('f-b2');
-  const b3    = v('f-b3');
-
-  const cs = 'font-size: 9px; color: black; font-family: Arial, Helvetica, sans-serif; line-height: 9px; margin: 0.1px; text-align: right; text-decoration: none;';
-
+  const cs = 'font-size:9px;color:black;font-family:Arial,Helvetica,sans-serif;line-height:9px;margin:0.1px;text-align:right;text-decoration:none;';
   return `<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--[if !mso]><!-- --><meta http-equiv="X-UA-Compatible" content="IE=edge" /><!--<![endif]-->
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
     <meta name="x-apple-disable-message-reformatting" />
-    <style>@font-face { font-family: 'Inter'; font-style: normal; font-weight: 470; src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjg.woff') format('woff'); }</style>
+    <style>@font-face{font-family:'Inter';font-style:normal;font-weight:470;src:url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZFhjg.woff') format('woff');}</style>
 </head>
-<body align="left" style="width: 500px !important; min-height: 166px !important; margin: 0 !important; padding: 0 !important; background-color: #ffffff;" bgcolor="#ffffff">
-    <table border="0" width="500" height="166" cellspacing="0" cellpadding="0" style="table-layout: fixed; min-height:166px; min-width: 500px; background-color: #ffffff; font-family: Arial, Helvetica, sans-serif;" bgcolor="#ffffff" role="presentation">
+<body align="left" style="width:500px!important;min-height:166px!important;margin:0!important;padding:0!important;background-color:#ffffff;" bgcolor="#ffffff">
+<table border="0" width="500" height="166" cellspacing="0" cellpadding="0" style="table-layout:fixed;min-height:166px;min-width:500px;background-color:#ffffff;font-family:Arial,Helvetica,sans-serif;" bgcolor="#ffffff" role="presentation">
+  <tr>
+    <!-- LEFT: Logo -->
+    <td width="167" height="166" align="left" valign="middle" style="margin:0.1px;padding:0;">
+      <img src="${CDN}blobal_main_logo2x.png" alt="" width="167" height="166" style="min-height:166px;min-width:167px;">
+    </td>
+    <!-- CENTER: Name + Badges -->
+    <td width="190" height="166" align="center" valign="middle" style="margin:0.1px;padding:0;">
+      <table border="0" width="190" cellspacing="0" cellpadding="0">
         <tr>
-            <!-- LEFT: Company Logo -->
-            <td width="167" height="166" align="left" valign="middle" style="margin: 0.1px; padding: 0px;">
-                <img src="${CDN}blobal_main_logo2x.png" alt="" width="167" height="166" style="min-height: 166px; min-width: 167px;">
-            </td>
-            <!-- CENTER: Name, Title & Badges -->
-            <td width="190" height="166" align="center" valign="middle" style="margin: 0.1px; padding: 0px;">
-                <table border="0" width="190" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center" style="padding-bottom: 8px;">
-                            <p style="font-size: 18px; font-weight: 900; color: #1a2a6c; font-family: Arial, Helvetica, sans-serif; letter-spacing: 1px; margin: 0; white-space: nowrap;">${name}</p>
-                            <p style="font-size: 9px; font-weight: 400; color: #555555; font-family: Arial, Helvetica, sans-serif; margin: 4px 0 0 0;">${title}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center">
-                            <table border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                    <td style="padding: 0 3px;"><img src="${b1}" alt="" width="50" height="50" style="display:block;"></td>
-                                    <td style="padding: 0 3px;"><img src="${b2}" alt="" width="50" height="50" style="display:block;"></td>
-                                    <td style="padding: 0 3px;"><img src="${b3}" alt="" width="50" height="50" style="display:block;"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <!-- RIGHT: Contact -->
-            <td width="167" height="166" align="right" valign="middle">
-                <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td height="70" align="right" valign="top" style="margin: 0.1px; font-size: 0.1px;">
-                            <img src="${CDN}odoo_logo_and_ornament2x.png" alt="" width="131" height="70" style="min-height: 70px; min-width: 131px;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table border="0" width="167" height="65" cellspacing="0" cellpadding="0">
-                                <tr height="20">
-                                    <td height="20" valign="middle" style="${cs}text-align:right;">
-                                        <p style="${cs}text-align:right;">
-                                            <a href="tel:${p1.replace(/\s/g,'')}" target="_blank" style="${cs}">${p1}</a><br>
-                                            <a href="tel:${p2.split(' ')[0]}" target="_blank" style="${cs}">${p2}</a>
-                                        </p>
-                                    </td>
-                                    <td width="20" height="20" align="right" valign="middle" style="margin: 0.1px;">
-                                        <img src="${CDN}phone2x.png" alt="" width="16" height="16" style="min-height: 16px; min-width: 16px; margin: 0.1px;">
-                                    </td>
-                                </tr>
-                                <tr height="20">
-                                    <td height="20" valign="middle" style="${cs}text-align:right;">
-                                        <p style="${cs}text-align:right;">
-                                            <a href="mailto:${e1}" target="_blank" style="${cs}">${e1}</a><br>
-                                            <a href="mailto:${e2}" target="_blank" style="${cs}">${e2}</a>
-                                        </p>
-                                    </td>
-                                    <td width="20" height="20" align="right" valign="middle" style="margin: 0.1px;">
-                                        <img src="${CDN}email2x.png" alt="" width="16" height="16" style="min-height: 16px; min-width: 16px; margin: 0.1px;">
-                                    </td>
-                                </tr>
-                                <tr height="20">
-                                    <td height="20" valign="middle" style="${cs}text-align:right;">
-                                        <p style="${cs}text-align:right;">
-                                            <a href="https://${web}" target="_blank" style="${cs}">${web}</a>
-                                        </p>
-                                    </td>
-                                    <td width="20" height="20" align="right" valign="middle" style="margin: 0.1px;">
-                                        <img src="${CDN}web2x.png" alt="" width="16" height="16" style="min-height: 16px; min-width: 16px; margin: 0.1px;">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr height="16">
-                        <td height="16" align="right" valign="middle" style="font-size: 0.1px; margin: 0.1px;">
-                            <table border="0" height="16" width="72" cellspacing="0" cellpadding="0">
-                                <tr height="16">
-                                    <td height="16" width="18" align="right" valign="middle" style="font-size: 0.1px; margin: 0.1px; padding-left: 2px;">
-                                        <a href="${fb}" target="_blank" style="color: white; font-size: 0.1px; margin: 0.1px; text-decoration: none;">
-                                            <img src="${CDN}facebook2x.png" alt="" width="16" height="16" style="min-width: 16px; min-height: 16px; vertical-align: middle; margin: 0.1px;">
-                                        </a>
-                                    </td>
-                                    <td height="16" width="18" align="right" valign="middle" style="font-size: 0.1px; margin: 0.1px; padding-left: 2px;">
-                                        <a href="${ig}" target="_blank" style="color: white; font-size: 0.1px; margin: 0.1px; text-decoration: none;">
-                                            <img src="${CDN}instagram2x.png" alt="" width="16" height="16" style="min-width: 16px; min-height: 16px; vertical-align: middle; margin: 0.1px;">
-                                        </a>
-                                    </td>
-                                    <td height="16" width="18" align="right" valign="middle" style="font-size: 0.1px; margin: 0.1px; padding-left: 2px;">
-                                        <a href="${xurl}" target="_blank" style="color: white; font-size: 0.1px; margin: 0.1px; text-decoration: none;">
-                                            <img src="${CDN}x2x.png" alt="" width="16" height="16" style="min-width: 16px; min-height: 16px; vertical-align: middle; margin: 0.1px;">
-                                        </a>
-                                    </td>
-                                    <td height="16" width="18" align="right" valign="middle" style="font-size: 0.1px; margin: 0.1px; padding-left: 2px;">
-                                        <a href="${li}" target="_blank" style="color: white; font-size: 0.1px; margin: 0.1px; text-decoration: none;">
-                                            <img src="${CDN}linkedin2x.png" alt="" width="16" height="16" style="min-width: 16px; min-height: 16px; vertical-align: middle; margin: 0.1px;">
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td height="15" style="font-size: 0.1px; line-height: 0.1px; margin: 0.1px; color: #ffffff;"><p>.</p></td>
-                    </tr>
-                </table>
-            </td>
+          <td align="center" style="padding-bottom:8px;">
+            <p style="font-size:18px;font-weight:900;color:#1a2a6c;font-family:Arial,Helvetica,sans-serif;letter-spacing:1px;margin:0;white-space:nowrap;">${v('f-name')}</p>
+            <p style="font-size:9px;font-weight:400;color:#555555;font-family:Arial,Helvetica,sans-serif;margin:4px 0 0 0;">${v('f-title')}</p>
+          </td>
         </tr>
-    </table>
+        <tr>
+          <td align="center">
+            <table border="0" cellspacing="0" cellpadding="0"><tr>
+              <td style="padding:0 3px;"><img src="${v('f-b1')}" alt="" width="50" height="50" style="display:block;"></td>
+              <td style="padding:0 3px;"><img src="${v('f-b2')}" alt="" width="50" height="50" style="display:block;"></td>
+              <td style="padding:0 3px;"><img src="${v('f-b3')}" alt="" width="50" height="50" style="display:block;"></td>
+            </tr></table>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <!-- RIGHT: Contact -->
+    <td width="167" height="166" align="right" valign="middle">
+      <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="70" align="right" valign="top" style="margin:0.1px;font-size:0.1px;">
+            <img src="${CDN}odoo_logo_and_ornament2x.png" alt="" width="131" height="70" style="min-height:70px;min-width:131px;">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table border="0" width="167" height="65" cellspacing="0" cellpadding="0">
+              <tr height="20">
+                <td height="20" valign="middle" style="${cs}text-align:right;">
+                  <p style="${cs}text-align:right;">
+                    <a href="tel:${v('f-p1').replace(/\s/g,'')}" target="_blank" style="${cs}">${v('f-p1')}</a><br>
+                    <a href="tel:${v('f-p2').split(' ')[0]}" target="_blank" style="${cs}">${v('f-p2')}</a>
+                  </p>
+                </td>
+                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
+                  <img src="${CDN}phone2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                </td>
+              </tr>
+              <tr height="20">
+                <td height="20" valign="middle" style="${cs}text-align:right;">
+                  <p style="${cs}text-align:right;">
+                    <a href="mailto:${v('f-e1')}" target="_blank" style="${cs}">${v('f-e1')}</a><br>
+                    <a href="mailto:${v('f-e2')}" target="_blank" style="${cs}">${v('f-e2')}</a>
+                  </p>
+                </td>
+                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
+                  <img src="${CDN}email2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                </td>
+              </tr>
+              <tr height="20">
+                <td height="20" valign="middle" style="${cs}text-align:right;">
+                  <p style="${cs}text-align:right;">
+                    <a href="https://${v('f-web')}" target="_blank" style="${cs}">${v('f-web')}</a>
+                  </p>
+                </td>
+                <td width="20" height="20" align="right" valign="middle" style="margin:0.1px;">
+                  <img src="${CDN}web2x.png" alt="" width="16" height="16" style="min-height:16px;min-width:16px;margin:0.1px;">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr height="16">
+          <td height="16" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;">
+            <table border="0" height="16" width="72" cellspacing="0" cellpadding="0"><tr height="16">
+              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
+                <a href="${v('f-fb')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
+                  <img src="${CDN}facebook2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
+                </a>
+              </td>
+              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
+                <a href="${v('f-ig')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
+                  <img src="${CDN}instagram2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
+                </a>
+              </td>
+              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
+                <a href="${v('f-x')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
+                  <img src="${CDN}x2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
+                </a>
+              </td>
+              <td height="16" width="18" align="right" valign="middle" style="font-size:0.1px;margin:0.1px;padding-left:2px;">
+                <a href="${v('f-li')}" target="_blank" style="color:white;font-size:0.1px;margin:0.1px;text-decoration:none;">
+                  <img src="${CDN}linkedin2x.png" alt="" width="16" height="16" style="min-width:16px;min-height:16px;vertical-align:middle;margin:0.1px;">
+                </a>
+              </td>
+            </tr></table>
+          </td>
+        </tr>
+        <tr>
+          <td height="15" style="font-size:0.1px;line-height:0.1px;margin:0.1px;color:#ffffff;"><p>.</p></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 </body>
 </html>`;
 }
@@ -407,11 +469,9 @@ function copyCode() {
   const ta = document.getElementById('output');
   ta.select();
   document.execCommand('copy');
-  const btn = event.currentTarget;
-  const orig = btn.innerHTML;
-  btn.innerHTML = '✅ Copied!';
-  btn.classList.add('btn-success');
-  setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('btn-success'); }, 2000);
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
 update();
