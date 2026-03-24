@@ -1,0 +1,1 @@
+# Global-Email-Signature-Generator
