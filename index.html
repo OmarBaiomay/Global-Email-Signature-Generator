@@ -87,8 +87,6 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
     <div class="tabs">
       <button class="tab active" onclick="switchTab('personal',this)">👤 Personal</button>
       <button class="tab" onclick="switchTab('contact',this)">📞 Contact</button>
-      <button class="tab" onclick="switchTab('social',this)">🔗 Social</button>
-      <button class="tab" onclick="switchTab('badges',this)">🏅 Badges</button>
     </div>
   </div>
   <div class="sb">
@@ -113,53 +111,6 @@ textarea#output{width:100%;background:transparent;border:none;outline:none;resiz
         <div class="acc-body">
           <div class="field"><label>Mobile</label><input id="f-p1" value="0541512512" oninput="update()"></div>
           <div class="field"><label>Office + Ext</label><input id="f-p2" value="0126546968 Ext: 101" oninput="update()"></div>
-        </div>
-      </div>
-      <div class="acc open">
-        <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon ic-teal">✉️</div>
-          <span class="acc-title">Email & Website</span><span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <div class="field"><label>Personal Email</label><input id="f-e1" value="omar@globalsolutions.sa" oninput="update()"></div>
-          <div class="field"><label>Company Email</label><input id="f-e2" value="info@globalsolutions.sa" oninput="update()"></div>
-          <div class="field"><label>Website</label><input id="f-web" value="globalsolutions.sa" oninput="update()"></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="panel-social">
-      <div class="acc open">
-        <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon ic-amber">🔗</div>
-          <span class="acc-title">Social Links</span><span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <div class="field"><label>Facebook</label><input id="f-fb" value="https://web.facebook.com/odoo?_rdc=1&_rdr" oninput="update()"></div>
-          <div class="field"><label>Instagram</label><input id="f-ig" value="https://www.instagram.com/odoo.official" oninput="update()"></div>
-          <div class="field"><label>X (Twitter)</label><input id="f-x" value="https://x.com/Odoo" oninput="update()"></div>
-          <div class="field"><label>LinkedIn</label><input id="f-li" value="https://www.linkedin.com/company/odoo" oninput="update()"></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" id="panel-badges">
-      <div class="acc open">
-        <div class="acc-head" onclick="toggleAcc(this)">
-          <div class="acc-icon ic-amber">🏅</div>
-          <span class="acc-title">Badge Image URLs</span><span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <div class="field"><label>Badge 1</label>
-            <div class="img-row"><input id="f-b1" value="https://globalsolutions.sa/assets/images/1.png" oninput="update();thumb('f-b1','th1')">
-            <img id="th1" class="thumb" src="https://globalsolutions.sa/assets/images/1.png" onerror="this.style.opacity=.3"></div>
-          </div>
-          <div class="field"><label>Badge 2</label>
-            <div class="img-row"><input id="f-b2" value="https://globalsolutions.sa/assets/images/2.png" oninput="update();thumb('f-b2','th2')">
-            <img id="th2" class="thumb" src="https://globalsolutions.sa/assets/images/2.png" onerror="this.style.opacity=.3"></div>
-          </div>
-          <div class="field"><label>Badge 3</label>
-            <div class="img-row"><input id="f-b3" value="https://globalsolutions.sa/assets/images/3.webp" oninput="update();thumb('f-b3','th3')">
-            <img id="th3" class="thumb" src="https://globalsolutions.sa/assets/images/3.webp" onerror="this.style.opacity=.3"></div>
-          </div>
         </div>
       </div>
     </div>
@@ -237,7 +188,7 @@ function thumb(iId,imgId){document.getElementById(imgId).src=v(iId);}
 
 function build(){
   const cs='font-size:11px;color:#1a1f3c;font-family:Arial,Helvetica,sans-serif;line-height:16px;margin:0;text-align:right;text-decoration:none;display:block;';
-  return `<table border="0" width="760" cellspacing="0" cellpadding="0"
+  return `<table border="0" width="620" cellspacing="0" cellpadding="0"
   style="table-layout:fixed;background-color:#ffffff;font-family:'Poppins',Arial,Helvetica,sans-serif;border-collapse:collapse;"
   bgcolor="#ffffff" role="presentation">
   <tr>
@@ -247,22 +198,13 @@ function build(){
         style="display:block;width:190px;height:auto;">
     </td>
 
-    <!-- CENTER: Name + Title + Badges -->
-    <td width="355" align="center" valign="middle" style="padding:14px 10px;">
-      <table border="0" width="340" cellspacing="0" cellpadding="0">
-        <tr>
-          <td align="left" style="padding-bottom:12px;">
-            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:20px;font-weight:700;color:#1a2a6c;letter-spacing:0.3px;line-height:1.3;white-space:nowrap;">${v('f-name')}</div>
-            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:13px;font-weight:300;color:#1a2a6c;letter-spacing:0.5px;margin-top:4px;white-space:nowrap;">${v('f-title')}</div>
-          </td>
-        </tr>
+    <!-- CENTER: Name + Title -->
+    <td width="215" align="left" valign="middle" style="padding:14px 10px;">
+      <table border="0" width="200" cellspacing="0" cellpadding="0">
         <tr>
           <td align="left">
-            <table border="0" cellspacing="0" cellpadding="0"><tr>
-              <td style="padding-right:6px;"><img src="${v('f-b1')}" alt="" width="110" height="110" style="display:block;width:110px;height:110px;"></td>
-              <td style="padding-right:6px;"><img src="${v('f-b2')}" alt="" width="110" height="110" style="display:block;width:110px;height:110px;"></td>
-              <td><img src="${v('f-b3')}" alt="" width="110" height="110" style="display:block;width:110px;height:110px;"></td>
-            </tr></table>
+            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:20px;font-weight:700;color:#1a2a6c;letter-spacing:0.3px;line-height:1.3;white-space:nowrap;">${v('f-name')}</div>
+            <div style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:13px;font-weight:300;color:#1a2a6c;letter-spacing:0.5px;margin-top:4px;white-space:nowrap;">${v('f-title')}</div>
           </td>
         </tr>
       </table>
@@ -283,7 +225,7 @@ function build(){
         </tr>
         <!-- Phone -->
         <tr>
-          <td style="padding-bottom:6px;">
+          <td>
             <table border="0" width="100%" cellspacing="0" cellpadding="0"><tr>
               <td valign="top" style="padding-right:6px;">
                 <a href="tel:${v('f-p1').replace(/\s/g,'')}" style="${cs}">${v('f-p1')}</a>
@@ -292,44 +234,6 @@ function build(){
               <td width="20" valign="top" align="right" style="padding-top:2px;">
                 <img src="${CDN}phone2x.png" alt="" width="18" height="18" style="display:block;min-width:18px;">
               </td>
-            </tr></table>
-          </td>
-        </tr>
-        <!-- Email -->
-        <tr>
-          <td style="padding-bottom:6px;">
-            <table border="0" width="100%" cellspacing="0" cellpadding="0"><tr>
-              <td valign="top" style="padding-right:6px;">
-                <a href="mailto:${v('f-e1')}" style="${cs}">${v('f-e1')}</a>
-                <a href="mailto:${v('f-e2')}" style="${cs}">${v('f-e2')}</a>
-              </td>
-              <td width="20" valign="top" align="right" style="padding-top:2px;">
-                <img src="${CDN}email2x.png" alt="" width="18" height="18" style="display:block;min-width:18px;">
-              </td>
-            </tr></table>
-          </td>
-        </tr>
-        <!-- Website -->
-        <tr>
-          <td style="padding-bottom:10px;">
-            <table border="0" width="100%" cellspacing="0" cellpadding="0"><tr>
-              <td valign="middle" style="padding-right:6px;">
-                <a href="https://${v('f-web')}" style="${cs}">${v('f-web')}</a>
-              </td>
-              <td width="20" valign="middle" align="right">
-                <img src="${CDN}web2x.png" alt="" width="18" height="18" style="display:block;min-width:18px;">
-              </td>
-            </tr></table>
-          </td>
-        </tr>
-        <!-- Social -->
-        <tr>
-          <td align="right">
-            <table border="0" cellspacing="0" cellpadding="0"><tr>
-              <td style="padding-left:5px;"><a href="${v('f-fb')}" target="_blank"><img src="${CDN}facebook2x.png" alt="Facebook" width="20" height="20" style="display:block;"></a></td>
-              <td style="padding-left:5px;"><a href="${v('f-ig')}" target="_blank"><img src="${CDN}instagram2x.png" alt="Instagram" width="20" height="20" style="display:block;"></a></td>
-              <td style="padding-left:5px;"><a href="${v('f-x')}" target="_blank"><img src="${CDN}x2x.png" alt="X" width="20" height="20" style="display:block;"></a></td>
-              <td style="padding-left:5px;"><a href="${v('f-li')}" target="_blank"><img src="${CDN}linkedin2x.png" alt="LinkedIn" width="20" height="20" style="display:block;"></a></td>
             </tr></table>
           </td>
         </tr>
